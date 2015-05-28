@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="dev|Win32">
+      <Configuration>dev</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="publish|Win32">
+      <Configuration>publish</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FC762A92-D74E-4486-859A-F41959315E21}</ProjectGuid>
+    <RootNamespace>Lightning</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='dev|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='publish|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='dev|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='publish|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="GeneralizedLibs.props" />
+    <Import Project="ThirdPartyCopy.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="GeneralizedLibs.props" />
+    <Import Project="LocalThirdPartySetup.props" />
+    <Import Project="LocalThirdPartySetup.props" />
+    <Import Project="ThirdPartyCopy.props" />
+    <Import Project="ThirdPartyCopy.props" />
+    <Import Project="ThirdPartyCopy.props" />
+    <Import Project="ThirdPartyCopy.props" />
+    <Import Project="PropertySheet.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='dev|Win32'">
+    <CustomBuildBeforeTargets>DisplayMessages</CustomBuildBeforeTargets>
+    <CustomBuildAfterTargets>DisplayMessages</CustomBuildAfterTargets>
+    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Builds\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='publish|Win32'">
+    <CustomBuildBeforeTargets>CopyThirdParty</CustomBuildBeforeTargets>
+    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Builds\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='dev|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)third_party\lib\32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp.lib;opengl32.lib;glew32.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+    </Link>
+    <CustomBuildStep>
+      <Command>echo WTF?</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <TreatOutputAsContent>
+      </TreatOutputAsContent>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>@echo off
+echo =========
+echo 3rd Party Copy
+echo =========
+echo   - Binaries
+set curDir=$(SolutionDir)third_party\bin\$(PlatformArchitecture)
+xcopy "%curDir%" "$(OutDir)" /s /i /y
+echo   - Licenses
+set curDir=$(SolutionDir)third_party\license
+xcopy "%curDir%" "$(OutDir)licenses\" /s /i /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='publish|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)third_party\lib\32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp.lib;opengl32.lib;glew32.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+    </Link>
+    <PostBuildEvent>
+      <Command>@echo off
+echo =========
+echo 3rd Party Copy
+echo =========
+echo   - Binaries
+set curDir=$(SolutionDir)third_party\bin\$(PlatformArchitecture)
+xcopy "%curDir%" "$(OutDir)" /s /i /y
+echo   - Licenses
+set curDir=$(SolutionDir)third_party\license
+xcopy "%curDir%" "$(OutDir)licenses\" /s /i /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="core\fio\Hierarchy.cpp" />
+    <ClCompile Include="core\fio\limitedFileBuf.cpp" />
+    <ClCompile Include="core\fio\SourcedStream.cpp" />
+    <ClCompile Include="core\fio\sources\BasicFile.cpp" />
+    <ClCompile Include="core\iniTable.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="core\fio\sources\Package.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config\display.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="core\fio\limitedFileBuf.h" />
+    <ClInclude Include="core\fio\SourcedStream.h" />
+    <ClInclude Include="core\fio\Hierarchy.h" />
+    <ClInclude Include="core\fio\sources\BasicFile.h" />
+    <ClInclude Include="core\fio\sources\IFileSource.h" />
+    <ClInclude Include="core\iniTable.h" />
+    <ClInclude Include="manager\ResourceManager.h" />
+    <ClInclude Include="resource\BaseResource.h" />
+    <ClInclude Include="core\fio\sources\Package.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
