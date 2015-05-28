@@ -12,6 +12,10 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+third_party/
+Intermediate/
+Builds/dev/
+Builds/publish/
 x64/
 x86/
 build/
