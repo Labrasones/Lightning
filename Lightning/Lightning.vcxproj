@@ -130,11 +130,13 @@ xcopy "%curDir%" "$(OutDir)licenses\" /s /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="core\fio\Hierarchy.cpp" />
+    <ClCompile Include="core\context\WindowContext.cpp" />
+    <ClCompile Include="core\task\TaskList.cpp" />
+    <ClCompile Include="manager\FileManager.cpp" />
     <ClCompile Include="core\fio\limitedFileBuf.cpp" />
     <ClCompile Include="core\fio\SourcedStream.cpp" />
     <ClCompile Include="core\fio\sources\BasicFile.cpp" />
-    <ClCompile Include="core\iniTable.cpp" />
+    <ClCompile Include="resource\iniTable.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="core\fio\sources\Package.cpp" />
   </ItemGroup>
@@ -142,15 +144,25 @@ xcopy "%curDir%" "$(OutDir)licenses\" /s /i /y</Command>
     <None Include="config\display.ini" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core\context\WindowContext.h" />
+    <ClInclude Include="core\task\ContextTask.h" />
     <ClInclude Include="core\fio\limitedFileBuf.h" />
     <ClInclude Include="core\fio\SourcedStream.h" />
-    <ClInclude Include="core\fio\Hierarchy.h" />
+    <ClInclude Include="core\task\TaskList.h" />
+    <ClInclude Include="core\task\BasicTask.h" />
+    <ClInclude Include="manager\FileManager.h" />
     <ClInclude Include="core\fio\sources\BasicFile.h" />
     <ClInclude Include="core\fio\sources\IFileSource.h" />
-    <ClInclude Include="core\iniTable.h" />
     <ClInclude Include="manager\ResourceManager.h" />
+    <ClInclude Include="resource\iniTable.h" />
     <ClInclude Include="resource\BaseResource.h" />
     <ClInclude Include="core\fio\sources\Package.h" />
+    <ClInclude Include="resource\IntermediaryResourceHandle.h" />
+    <ClInclude Include="resource\ResourceHandle.h" />
+    <ClInclude Include="resource\ResourceTree.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="config\backup.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

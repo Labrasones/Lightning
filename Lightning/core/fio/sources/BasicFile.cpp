@@ -18,6 +18,9 @@ BasicFile::~BasicFile()
 bool BasicFile::openStreamBuffer(std::string filepath, SourcedStream* stream, std::ios::openmode mode)
 {
 	std::filebuf* buf = new std::filebuf();
+
+	BasicFile* bf = new BasicFile();
+
 	buf->open(filepath, mode);
 
 	if (buf->is_open())

@@ -1,16 +1,11 @@
 /*
-	iniTable.h
+iniTable.h
 
-	Utility to create an ini table from a .ini file
+Utility to create an ini table from a .ini file
 */
 #include "iniTable.h"
 
-#include <algorithm>
-
-#include "fio/Hierarchy.h"
-#include "fio/SourcedStream.h"
-
-using namespace Util;
+using namespace Resource;
 
 iniTable::iniTable()
 {
@@ -25,17 +20,17 @@ iniTable::~iniTable()
 }
 
 // File operations
-bool iniTable::LoadIniFile(std::string iniFile)
+bool iniTable::load(Manager::ResourceManager* container, std::string path)
 {
-	originFile = iniFile;
+	//originFile = path;
 	File::SourcedStream ini;
-	bool exists = File::Hierarchy::openStream(iniFile, &ini, std::ios::in | std::ios::ate);
+	bool exists = container->file()->openStream(path, &ini, std::ios::in | std::ios::ate);
 	if (exists)
 	{
 		std::string cleanIni; // No comments or whitespace
 		cleanIni.reserve((unsigned int)ini.tellg()); // Needs to be at most large enough to contain entire ini file. Save time by reserving it now, rather than continually increasing.
 		ini.reset();
-		
+
 		std::string line;
 		while (std::getline(ini, line)){
 			if (line.size() <= 0)
@@ -52,15 +47,28 @@ bool iniTable::LoadIniFile(std::string iniFile)
 			toAdd.erase(std::remove_if(toAdd.begin(), toAdd.end(), ::isspace), toAdd.end());
 			cleanIni += toAdd; // Add the non comment section of this line to the cleanIni string
 		}
-		
-		this->parseIni(cleanIni);
+
+		//this->parseIni(cleanIni);
+		iniTable* table = new iniTable();
 	}
 	else{
-		std::cout << "Err: .ini not found: " << iniFile << std::endl;
+		// TODO: Use generalized error logger
+		std::cout << "Err: .ini not found: " << path << std::endl;
 		return false;
 	}
+	_ready = true;
 	return true;
 }
+
+bool iniTable::is_ready()
+{
+	return _ready;
+}
+char* iniTable::type()
+{
+	return "INI_Table";
+}
+
 
 int iniTable::parseIni(std::string ini)
 {
@@ -89,7 +97,8 @@ int iniTable::parseIni(std::string ini)
 					// Was not a float, save as a string
 					this->SetString(key, toParse);
 				}
-			}else{ // No decimal point was found
+			}
+			else{ // No decimal point was found
 				try {
 					int value = std::stoi(toParse);
 					this->SetInt(key, value);
@@ -126,12 +135,7 @@ int iniTable::parseIni(std::string ini)
 	return index; // This is how far we read before we reached the end of this table
 }
 
-bool iniTable::WriteIni()
-{
-
-	return true;
-}
-bool iniTable::WriteIniToFile(std::string iniFile)
+bool iniTable::save(std::string iniFile)
 {
 	return true;
 }
