@@ -6,6 +6,12 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.vcxproj
+*.filters
+*.cmake
+*.sln
+CMakeFiles/
+CMakeCache.txt
 
 # Build results
 [Dd]ebug/
