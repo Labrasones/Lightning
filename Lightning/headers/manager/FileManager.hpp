@@ -5,8 +5,8 @@
 */
 #pragma once
 
-#include "SourcedStream.hpp"
-#include "IFileSource.hpp"
+#include "file/SourcedStream.hpp"
+#include "file/IFileSource.hpp"
 
 #include <vector>
 namespace File

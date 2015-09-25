@@ -7,24 +7,33 @@
 
 #include <iostream>
 
-#include "ResourceManager.hpp"
+#include "manager/ResourceManager.hpp"
 
 namespace Resource
 {
 	class BaseResource
 	{
 	public:
-		BaseResource(){}
+		BaseResource() : _ready(false), _loading(false), _loaded(false){}
 		virtual ~BaseResource() = 0;
 
 		virtual bool load(Manager::ResourceManager* container, std::string path) = 0;
-		
 
 		virtual char* type() = 0;
-		virtual bool is_ready() = 0;
+		virtual bool ready() {
+			return _ready;
+		}
+		virtual bool loading() {
+			return _loading;
+		}
+		virtual bool loaded() {
+			return _loaded;
+		}
 
 	protected:
 		bool _ready;
+		bool _loading;
+		bool _loaded;
 		Manager::ResourceManager* _container;
 	};
 

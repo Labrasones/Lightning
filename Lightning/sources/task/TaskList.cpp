@@ -3,7 +3,7 @@
 
 	Interface for classes which implement a task list
 */
-#include "TaskList.hpp"
+#include "task/TaskList.hpp"
 
 using namespace Task;
 

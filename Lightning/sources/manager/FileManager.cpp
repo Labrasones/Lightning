@@ -3,7 +3,7 @@
 
 	Access files through a hierarchial list of possible file sources
 */
-#include "FileManager.hpp"
+#include "manager/FileManager.hpp"
 
 using namespace File;
 

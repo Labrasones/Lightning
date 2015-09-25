@@ -4,8 +4,8 @@
 	Uses basic ifstreams to get file data
 */
 
-#include "BasicFile.hpp"
-#include "limitedFileBuf.hpp"
+#include "file/BasicFile.hpp"
+#include "file/limitedFileBuf.hpp"
 
 using namespace File;
 using namespace Source;

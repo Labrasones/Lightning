@@ -6,7 +6,7 @@
 	Offers utility methods which mirror the ifstream for a more generic buffer source
 */
 
-#include "SourcedStream.hpp"
+#include "file/SourcedStream.hpp"
 
 using namespace File;
 

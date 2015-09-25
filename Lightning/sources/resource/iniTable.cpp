@@ -3,7 +3,7 @@ iniTable.h
 
 Utility to create an ini table from a .ini file
 */
-#include "iniTable.hpp"
+#include "resource/iniTable.hpp"
 
 using namespace Resource;
 
@@ -22,7 +22,7 @@ iniTable::~iniTable()
 // File operations
 bool iniTable::load(Manager::ResourceManager* container, std::string path)
 {
-	//originFile = path;
+	originFile = path;
 	File::SourcedStream ini;
 	bool exists = container->file()->openStream(path, &ini, std::ios::in | std::ios::ate);
 	if (exists)
@@ -48,7 +48,7 @@ bool iniTable::load(Manager::ResourceManager* container, std::string path)
 			cleanIni += toAdd; // Add the non comment section of this line to the cleanIni string
 		}
 
-		//this->parseIni(cleanIni);
+		this->parseIni(cleanIni);
 		iniTable* table = new iniTable();
 	}
 	else{

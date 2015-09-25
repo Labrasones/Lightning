@@ -5,7 +5,7 @@
 	Prevents reading and writing outside of specified limits. Designed to load data from package files.
 
 */
-#include "limitedFileBuf.hpp"
+#include "file/limitedFileBuf.hpp"
 
 using namespace File;
 

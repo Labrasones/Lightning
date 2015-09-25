@@ -7,7 +7,7 @@
 #include <string>
 #include <map>
 
-#include "ResourceManager.hpp"
+#include "manager/ResourceManager.hpp"
 #include "BaseResource.hpp"
 
 namespace Resource

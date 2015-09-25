@@ -1,14 +1,10 @@
 #pragma once
 /*
 	resource/ResourceHandle.h
-
-	A handle for other parts of the API gain access to a resource. Uses an intermediary pointer 
-	to allow for redirection of data without having access to every ResourceHandle to that
-	resource
+	
+	Used to hold a reference to a resource. The resource can be changed on the fly by the resource manager
 */
 #include <memory>
-
-#include "IntermediaryResourceHandle.hpp"
 
 namespace Resource
 {
@@ -16,32 +12,24 @@ namespace Resource
 	class ResourceHandle
 	{
 	public:
-		// Create NULL Handle. Does not point to an intermediary
-		ResourceHandle()
-		{}
-		// Create a Handle to the supplied intermediary handle.
-		ResourceHandle(std::shared_ptr<IntermediaryResourceHandle<ResourceType>> intermediaryHandle) : _intermediary(intermediaryHandle)
+		ResourceHandle(ResourceType *resource) : _res(resource)
 		{}
 		~ResourceHandle()
-		{}
-
-		// Set the Handle to the supplied intermediary handle.
-		void setIntermediary(std::shared_ptr<IntermediaryResourceHandle<ResourceType>> newIntermediary)
 		{
-			_intermediary = newIntermediary;
+			delete _res; // Delete the resource stored in this handle
+		}
+
+		void changeResource(ResourceType *resource)
+		{
+			_res = resource;
 		}
 
 		ResourceType* get()
 		{
-			if (_intermediary){
-				return _intermediary->get();
-			}
-			else{
-				return nullptr;
-			}
+			return _res;
 		}
 
 	private:
-		std::shared_ptr<IntermediaryResourceHandle<ResourceType>> _intermediary;
+		ResourceType *_res;
 	};
 }

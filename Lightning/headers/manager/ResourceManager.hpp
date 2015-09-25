@@ -10,10 +10,10 @@
 #include <typeinfo>
 #include <typeindex>
 
-#include "ResourceTree.hpp"
-#include "ResourceHandle.hpp"
+#include "resource/ResourceTree.hpp"
+#include "resource/ResourceHandle.hpp"
+#include "resource/ResourceNode.hpp"
 
-#include "WindowContext.hpp"
 #include "FileManager.hpp"
 
 namespace Manager
@@ -21,7 +21,7 @@ namespace Manager
 	class ResourceManager
 	{
 	public:
-		ResourceManager(Context::WindowContext *context, File::FileManager *fileManager) : _context(context), _fileManager(fileManager)
+		ResourceManager(File::FileManager *fileManager) : _fileManager(fileManager)
 		{
 
 		}
@@ -70,16 +70,21 @@ namespace Manager
 
 		// Get a resource from the tree. If load is true, will add it to the queue to be loaded. Supplying a tree will prevent tree lookups
 		template <class ResourceType>
-		Resource::ResourceHandle<ResourceType> getResourceHandle(std::string path, bool load = true, Resource::ResourceTree<ResourceType>* tree = nullptr){
+		std::shared_ptr<Resource::ResourceHandle<ResourceType>> getHandle(std::string path, bool load = true, Resource::ResourceTree<ResourceType>* tree = nullptr){
 			Resource::ResourceTree<ResourceType>* rtree = tree;
 			if (!rtree)
 			{
 				rtree = getTree<ResourceType>(); // Get the resource tree
 			}
-			Resource::ResourceTree<ResourceType>::Node* resourceNode = rtree->getNode(path);
+			Resource::ResourceNode<ResourceType> *node = rtree->getNode(path);
 
-			// Return a resource handle containing a intermediary handle shared by the node.
-			return Resource::ResourceHandle<ResourceType>(std::shared_ptr<Resource::IntermediaryResourceHandle<ResourceType>>(resourceNode->handle));
+			if (!node->loading && !node->finished && load) { // If the node has not been loaded, is not currently loading, and we are set to load
+				addLoadTask<ResourceType>(node, path);
+				node->loading = true;
+			}
+
+			// Share the handle from the node
+			return std::shared_ptr<Resource::ResourceHandle<ResourceType>>(node->handle);
 		}
 
 		// Add a fully loaded resource to the tree for that type. Supplying a tree will prevent tree lookups
@@ -91,43 +96,39 @@ namespace Manager
 			{
 				rtree = getTree<ResourceType>();
 			}
-			Resource::ResourceTree<ResourceType>::Node* resourceNode = rtree->getNode(path);
+			Resource::ResourceNode<ResourceType>* resourceNode = rtree->getNode(path);
 
-			resourceNode->handle = std::shared_ptr<Resource::IntermediaryResourceHandle<ResourceType>
+			resourceNode->handle = std::shared_ptr<Resource::ResourceHandle<ResourceType>>(new Resource::ResourceHandle<ResourceType>(resource));
 		}
 		// Get the fileManager this resourceManager is using
 		File::FileManager* file()
 		{
 			return _fileManager;
 		}
-		// Get the WindowContext this resourceManager is attached to
-		Context::WindowContext* context()
-		{
-			return _context;
-		}
 
 		template <class ResourceType>
 		class loadTask : public Task::BasicTask
 		{
 		public:
-			loadTask(Manager::ResourceManager* parentManager, std::shared_ptr<ResourceType> resourceToLoad, std::string path, Task::priority_t priority = Task::HIGH) : BasicTask(priority), _resToLoad(resourceToLoad), _manager(parentManager), _path(path)
+			loadTask(Manager::ResourceManager* parentManager, Resource::ResourceNode<ResourceType> *resourceNode, std::string path, Task::priority_t priority = Task::HIGH) : BasicTask(priority), _nodeToLoad(resourceNode), _manager(parentManager), _path(path)
 			{}
 			~loadTask()
 			{}
 			void execute()
 			{
-				_resToLoad->load(_manager, _path);
+				// Load the resource
+				_nodeToLoad->handle.get()->get()->load(_manager, _path);
 			}
 		private:
-			std::shared_ptr<ResourceType> _resToLoad;
+			Resource::ResourceNode<ResourceType>* _nodeToLoad;
 			Manager::ResourceManager* _manager;
 			std::string _path;
 		};
 
 		template <class ResourceType>
-		void addLoadTask(std::shared_ptr<ResourceType> resource, std::string path, Task::priority_t priority = Task::HIGH)
+		void addLoadTask(Resource::ResourceNode<ResourceType> *resourceNoce, std::string path, Task::priority_t priority = Task::HIGH)
 		{
-			loadTaskList.addTask(new loadTask<ResourceType>(this, resource, path, priority));
+			loadTaskList.addTask(new loadTask<ResourceType>(this, resourceNoce, path, priority));
 		}
 
 		Task::TaskList loadTaskList;
@@ -137,7 +138,6 @@ namespace Manager
 		std::unordered_map<std::type_index, Resource::BaseResourceTree*> _trees;
 
 		// Hierarchy links
-		Context::WindowContext* _context;
 		File::FileManager* _fileManager;
 	};
 }

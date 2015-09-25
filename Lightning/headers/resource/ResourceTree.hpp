@@ -10,8 +10,8 @@ Contains a filetree storing a collection of resources
 #include <memory>
 #include <utility>
 
-#include "TaskList.hpp"
-#include "IntermediaryResourceHandle.hpp"
+#include "task/TaskList.hpp"
+#include "ResourceNode.hpp"
 
 namespace Manager
 {
@@ -34,19 +34,20 @@ namespace Resource
 	template <class ResourceType>
 	class ResourceTree : public BaseResourceTree
 	{
+	// PUBLIC FUNCTIONS
 	public:
 		ResourceTree(Manager::ResourceManager *manager, std::string fallbackPath) : _manager(manager)
 		{
 			_root.name = "root"; // Rename the root node to 'root'
 			_fallback.load(manager, fallbackPath); // Load the specified fallback resource
-			Node* fallbackNode = getNode(fallbackPath);
+			ResourceNode<ResourceType>* fallbackNode = getNode(fallbackPath);
 			fallbackNode->handle = std::shared_ptr<IntermediaryResourceHandle<ResourceType>>(&_fallback);
 		}
 		ResourceTree(Manager::ResourceManager *manager, ResourceType fallbackResource, std::string fallbackPath = "fallback") : _manager(manager)
 		{
 			_root.name = "root";
 			_fallback = std::move(fallbackResource);
-			Node* fallbackNode = getNode(fallbackPath);
+			getNode(fallbackPath);
 		}
 		~ResourceTree()
 		{
@@ -56,27 +57,12 @@ namespace Resource
 				deleteTreeAt(it->second);
 			}
 		}
-		
-		class Node{ // A node in the resource tree
-		public:
-			// Create a new node with name, which points to resource (optional)
-			Node(std::string name = "null", std::shared_ptr<IntermediaryResourceHandle<ResourceType>> resourceHandle = std::shared_ptr<IntermediaryResourceHandle<ResourceType>>()) : name(name), handle(resourceHandle), finished(false), loading(false)
-			{}
-			// Destroys the resource this node points to
-			~Node()
-			{}
-			std::string name;
-			std::shared_ptr<IntermediaryResourceHandle<ResourceType>> handle;
-			bool finished;
-			bool loading;
-			std::unordered_map<std::string, Node*> children;
-		};
 
 		// Retrieve a resource from the tree. If the resource does not exist, a cloned fallback will be returned. If 'load' is true, resource will be added to the load queue
-		Node* getNode(std::string path)
+		ResourceNode<ResourceType>* getNode(std::string path)
 		{
 			std::cout << "Getting Resource" << std::endl;
-			Node* resourceNode = findPathNode(&_root, path);
+			ResourceNode<ResourceType>* resourceNode = findPathNode(&_root, path);
 			if (!resourceNode)
 				throw std::out_of_range("Resource path not found, could not be added");
 			return resourceNode;
@@ -84,19 +70,17 @@ namespace Resource
 
 		void removeNode(std::string path)
 		{
-			Node* resourceNode = findPathNode(&_root, path);
+			ResourceNode<ResourceType>* resourceNode = findPathNode(&_root, path);
 			if (resourceNode)
 			{
 				deleteTreeAt(resourceNode); // Delete it's children
 				delete resourceNode; // Delete it
 			}
 		}
-	private:
-		Manager::ResourceManager* _manager; // Parent manager of this tree
-		ResourceType _fallback; // fallback resource for this tree	
-		Node _root; // root of the resource tree
 
-		void deleteTreeAt(Node* root){
+	// PRIVATE FUNCTIONS
+	private:
+		void deleteTreeAt(ResourceNode<ResourceType>* root){
 			// Delete the tree rooted at each child
 			for (auto it = root->children.begin(); it != root->children.end(); ++it)
 			{
@@ -105,7 +89,7 @@ namespace Resource
 			// Delete this node
 			delete root; // Delete the node
 		}
-		Node* findPathNode(Node *root, std::string path)
+		ResourceNode<ResourceType>* findPathNode(ResourceNode<ResourceType> *root, std::string path)
 		{
 			std::size_t pathBreak = path.find_first_of("/\\");
 			if (pathBreak == std::string::npos) // All that is left of the path is the node name
@@ -113,15 +97,14 @@ namespace Resource
 				std::cout << "End of the path" << std::endl;
 				try // Try to get the node of this name
 				{
-					Node* node = root->children.at(path);
+					ResourceNode<ResourceType>* node = root->children.at(path);
 					std::cout << "Path found: Returning" << std::endl;
 					return node;
 				}
 				catch (std::out_of_range) // This named node was not in the tree under root
 				{
 					std::cout << "Path not found: Creating final node" << std::endl;
-					std::shared_ptr<ResourceType> shptrres(&_fallback);
-					Node* child = new Node(path); // Give the node a shared_ptr to a clone of the fallback resource
+					ResourceNode<ResourceType>* child = new ResourceNode<ResourceType>(path, std::shared_ptr<ResourceHandle<ResourceType>>(new ResourceHandle<ResourceType>(&_fallback)));
 					root->children[path] = child;
 					return child;
 				}
@@ -133,20 +116,24 @@ namespace Resource
 				std::cout << "Finding: Looking for: " << childName << "; remaining: " << remainaingPath << std::endl;
 
 				try{
-					Node* child = root->children.at(childName);
+					ResourceNode<ResourceType>* child = root->children.at(childName);
 					std::cout << "Found child: " << childName << std::endl;
 					return findPathNode(child, remainaingPath);
 				}
 				catch (std::out_of_range)
 				{
 					std::cout << "Child not found, creating it" << std::endl;
-					Node* child = new Node(childName);
+					ResourceNode<ResourceType>* child = new ResourceNode<ResourceType>(childName);
 					root->children[childName] = child;
 					return findPathNode(child, remainaingPath);
 				}
 			}
 		}
 
-		
+		// CLASS MEMBERS
+		private:
+			Manager::ResourceManager *_manager; // Parent manager of this tree
+			ResourceType _fallback; // fallback resource for this tree	
+			ResourceNode<ResourceType> _root; // root of the resource tree
 	};
 }

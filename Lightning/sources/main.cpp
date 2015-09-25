@@ -2,32 +2,31 @@
 		Lightning Rendering Engine
 
 	main.cpp
-
-	Application entry and window and context creation.
 */
-#define _CRT_SECURE_NO_DEPRECATE
-#include <iostream>
 
-#include <memory>
+// Local headers
+#include "lightning.hpp"
 
-#include <Windows.h>
+#include "manager/ResourceManager.hpp"
+#include "resource/BaseResource.hpp"
+#include "resource/ResourceHandle.hpp"
+#include "manager/FileManager.hpp"
+#include "file/BasicFile.hpp"
+#include "resource/iniTable.hpp"
+#include "glad/glad.h"
 
-#define GLFW_DLL
-#include <GLFW\glfw3.h>
+// System headers
+#include <GLFW/glfw3.h>
 
-#include "ResourceManager.hpp"
-#include "BaseResource.hpp"
-#include "ResourceHandle.hpp"
-#include "FileManager.hpp"
-#include "BasicFile.hpp"
-#include "iniTable.hpp"
+// Standard headers
+#include <cstdio>
+#include <cstdlib>
 
 // TODO: Create generalize error logger
 void error_callback(int error, const char* description)
 {
 	
 	std::cout << "Error: " << error << ".\n	" << description << std::endl;
-	MessageBox(NULL, description, "Error!", MB_OK);
 }
 
 // TODO: Implement a propper imput handler
@@ -39,27 +38,68 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 
 int main(int argc, char *argv)
 {
-#ifdef WIN32
-#ifdef _DEBUG
-	AllocConsole();
-	freopen("conin$", "r", stdin);
-	freopen("conout$", "w", stdout);
-	freopen("conout$", "w", stderr);
-#endif
-#endif
 
 	// Initialize GLFW
 	if (!glfwInit())
 	{
-		// TODO: Create generalize error logger
 		error_callback(0, "glfw failed to initialize");
 		exit(EXIT_FAILURE);
 	}
 	glfwSetErrorCallback(error_callback);
 
-	// Create the context Object
-	Context::WindowContext context(glfwGetPrimaryMonitor());
+	File::FileManager file;
+	file.addSource(new File::Source::BasicFile()); // Add basic File IO as a source
+
+	Manager::ResourceManager resource(&file);
+
+	// Create a fallback iniTable with some data
+	Resource::iniTable fallbackTable;
+	fallbackTable.SetInt("fail", 1); // The key test will give an in, '42'
+	// Create a tree for iniTables in the resource manager using the fallback iniTable as a fallback
+	resource.createTreeOfType<Resource::iniTable>(fallbackTable, "fallback");
+
+	std::shared_ptr<Resource::ResourceHandle<Resource::iniTable>> displaySettings = resource.getHandle<Resource::iniTable>(std::string("display.ini"));
+
+	resource.loadTaskList.popTask()->execute();
+
+	// Get a handle to an iniTable
+	std::cout << "Test Value: " << displaySettings->get()->GetInt("test") << std::endl;
+
 	
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	auto mWindow = glfwCreateWindow(1000, 800, "OpenGL", nullptr, nullptr);
+
+	// Check for Valid Context
+	if (mWindow == nullptr) {
+		fprintf(stderr, "Failed to Create OpenGL Context");
+		return EXIT_FAILURE;
+	}
+
+	// Create Context and Load OpenGL Functions
+	glfwMakeContextCurrent(mWindow);
+	gladLoadGL();
+	fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
+
+	// Rendering Loop
+	while (glfwWindowShouldClose(mWindow) == false) {
+		if (glfwGetKey(mWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+			glfwSetWindowShouldClose(mWindow, true);
+
+		// Background Fill Color
+		glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		// Flip Buffers and Draw
+		glfwSwapBuffers(mWindow);
+		glfwPollEvents();
+	}   glfwTerminate();
+	return EXIT_SUCCESS;
+
+	/*
 	// Create the file manager
 	File::FileManager fileManager;
 	fileManager.addSource(new File::Source::BasicFile()); // Add basic File IO as a source
@@ -109,5 +149,5 @@ int main(int argc, char *argv)
 
 	context.destroyWindow();
 	glfwTerminate();
-	return 0;
+	return 0;*/
 }
