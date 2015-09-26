@@ -10,6 +10,6 @@
 [submodule "Lightning/3rdparty/glm"]
 	path = Lightning/3rdparty/glm
 	url = git://github.com/g-truc/glm.git
-[submodule "Lightning/3rdparty/stb"]
-	path = Lightning/3rdparty/stb
-	url = git://github.com/nothings/stb.git
+[submodule "Lightning/3rdparty/gli"]
+	path = Lightning/3rdparty/gli
+	url = git://github.com/g-truc/gli
