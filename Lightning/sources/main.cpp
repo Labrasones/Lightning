@@ -57,13 +57,14 @@ int main(int argc, char *argv)
 	Resource::iniTable fallbackTable;
 	fallbackTable.SetInt("fallback", 1);
 	// Create a tree for iniTables in the resource manager using the fallback iniTable as a fallback
-	resource.createTreeOfType<Resource::iniTable>(fallbackTable, "fallback");
+	resource.addTree<Resource::iniTable>(fallbackTable, "fallback");
 
 	std::shared_ptr<Resource::ResourceHandle<Resource::iniTable>> displaySettings = resource.getHandle<Resource::iniTable>(std::string("display.ini"));
+
 	resource.loadTaskList.popTask()->execute();
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, displaySettings->get()->GetInt("major_version"));
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, displaySettings->get()->GetInt("minor_version"));
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);//displaySettings->get()->GetInt("major_version"));
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);//displaySettings->get()->GetInt("minor_version"));
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	if (displaySettings->get()->GetInt("resizeable") == 1) {
@@ -74,8 +75,15 @@ int main(int argc, char *argv)
 	}
 	glfwWindowHint(GLFW_SAMPLES, displaySettings->get()->GetInt("samples"));
 
-	Resource::iniTable resTable = displaySettings->get()->GetSubtable("resolution");
-	auto window = glfwCreateWindow(resTable.GetInt("x"), resTable.GetInt("y"), "Lightning OpenGl Renderer", nullptr, nullptr);
+	Resource::iniTable* resTable = displaySettings->get()->GetSubtable("resolution");
+	GLFWwindow* window;
+	if (resTable) {
+		window = glfwCreateWindow(resTable->GetInt("x"), resTable->GetInt("y"), "Lightning OpenGl Renderer", nullptr, nullptr);
+	}
+	else {
+		fprintf(stderr, "Invalid Display INI Setup");
+		return EXIT_FAILURE;
+	}
 
 	// Set the required callback functions
 	glfwSetKeyCallback(window, key_callback);
@@ -96,7 +104,7 @@ int main(int argc, char *argv)
 	gladLoadGL();
 	fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
 
-	glViewport(0, 0, resTable.GetInt("x"), resTable.GetInt("y"));
+	//glViewport(0, 0, resTable.GetInt("x"), resTable.GetInt("y"));
 
 	// Setup some OpenGL options
 	glEnable(GL_DEPTH_TEST);
@@ -104,12 +112,12 @@ int main(int argc, char *argv)
 	/*
 		INITIALIZATION
 	*/
-
+	
 	Shader ourShader("vertexShader.vert", "fragshader.frag");
-	Model ourModel("nanosuit.obj");
+	Model ourModel("resource/nanosuit.obj");
 
-	float screenWidth = (float)resTable.GetInt("x");
-	float screenHeight = (float)resTable.GetInt("y");
+	float screenWidth = (float)resTable->GetInt("x");
+	float screenHeight = (float)resTable->GetInt("y");
 
 	// Game loop
 	glClearColor(0.25f, 0.3f, 0.25f, 1.0f);

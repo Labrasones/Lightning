@@ -40,6 +40,7 @@ namespace Resource
 		{
 			_root.name = "root"; // Rename the root node to 'root'
 			_fallback.load(manager, fallbackPath); // Load the specified fallback resource
+			_fallback.makeUnready(); // A fallback is never in a ready state. But it should be in a useable state
 			ResourceNode<ResourceType>* fallbackNode = getNode(fallbackPath);
 			fallbackNode->handle = std::shared_ptr<IntermediaryResourceHandle<ResourceType>>(&_fallback);
 		}

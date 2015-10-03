@@ -19,8 +19,10 @@ namespace Resource
 			delete _res; // Delete the resource stored in this handle
 		}
 
-		void changeResource(ResourceType *resource)
+		void changeResource(ResourceType *resource, bool removeOld = true)
 		{
+			if( removeOld )
+				delete _res; // Delete the old resource stored in this handle
 			_res = resource;
 		}
 

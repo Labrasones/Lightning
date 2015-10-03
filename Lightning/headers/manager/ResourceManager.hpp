@@ -27,7 +27,7 @@ namespace Manager
 		}
 		~ResourceManager()
 		{
-
+			_trees.clear(); // Delete all the trees in this manager
 		}
 
 		// Add a resource tree. Requires a path to a fallback resource. Replaces trees if that type already existed
@@ -41,8 +41,9 @@ namespace Manager
 			_trees[typeid(ResourceType)] = tree;
 		}
 		template <class ResourceType>
-		void createTreeOfType(ResourceType fallbackResource, std::string fallbackPath)
+		void addTree(ResourceType fallbackResource, std::string fallbackPath)
 		{
+			fallbackResource.makeUnready();
 			Resource::ResourceTree<ResourceType> *tree = new Resource::ResourceTree<ResourceType>(this, fallbackResource, fallbackPath);
 			if (_trees.count(typeid(ResourceType)) > 0){
 				delete _trees[typeid(ResourceType)];
@@ -117,7 +118,12 @@ namespace Manager
 			void execute()
 			{
 				// Load the resource
-				_nodeToLoad->handle.get()->get()->load(_manager, _path);
+				Resource::ResourceHandle<ResourceType>* handle = _nodeToLoad->handle.get();
+				ResourceType* loadedResource = new ResourceType();
+				loadedResource->load(_manager, _path);
+				if (loadedResource->loading() || loadedResource->loaded()) {
+					handle->changeResource(loadedResource, false);
+				}
 			}
 		private:
 			Resource::ResourceNode<ResourceType>* _nodeToLoad;
@@ -126,9 +132,9 @@ namespace Manager
 		};
 
 		template <class ResourceType>
-		void addLoadTask(Resource::ResourceNode<ResourceType> *resourceNoce, std::string path, Task::priority_t priority = Task::HIGH)
+		void addLoadTask(Resource::ResourceNode<ResourceType> *resourceNode, std::string path, Task::priority_t priority = Task::HIGH)
 		{
-			loadTaskList.addTask(new loadTask<ResourceType>(this, resourceNoce, path, priority));
+			loadTaskList.addTask(new loadTask<ResourceType>(this, resourceNode, path, priority));
 		}
 
 		Task::TaskList loadTaskList;

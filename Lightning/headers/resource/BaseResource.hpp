@@ -14,31 +14,38 @@ namespace Resource
 	class BaseResource
 	{
 	public:
-		BaseResource() : _ready(false), _loading(false), _loaded(false){}
+		BaseResource() : _ready(false), _loading(false), _loaded(false), _failed(false){}
 		virtual ~BaseResource() = 0;
 
 		virtual bool load(Manager::ResourceManager* container, std::string path) = 0;
-
 		virtual char* type() = 0;
-		virtual bool ready() {
+
+		bool ready() {
 			return _ready;
 		}
-		virtual bool loading() {
+		// Change the state of the resource to not ready.
+		void makeUnready() {
+			_ready = false;
+		}
+		bool loading() {
 			return _loading;
 		}
-		virtual bool loaded() {
+		bool loaded() {
 			return _loaded;
+		}
+		bool failed() {
+			return _failed;
 		}
 
 	protected:
 		bool _ready;
 		bool _loading;
 		bool _loaded;
-		Manager::ResourceManager* _container;
+		bool _failed;
 	};
 
 	inline BaseResource::~BaseResource()
 	{
 
-	}
+	};
 }

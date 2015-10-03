@@ -22,14 +22,16 @@ namespace Resource
 		int parseIni(std::string ini);
 
 		bool is_ready();
-		char* type();
+		char* type() {
+			return "ini_table";
+		}
 
 		bool save(std::string iniPath); // Not implemented
 
 		int				GetInt			(std::string key);
 		float			GetFloat		(std::string key);
 		std::string		GetString		(std::string key);
-		iniTable		GetSubtable		(std::string key);
+		iniTable*		GetSubtable		(std::string key);
 
 		void			SetInt			(std::string key, int value);
 		void			SetFloat		(std::string key, float value);

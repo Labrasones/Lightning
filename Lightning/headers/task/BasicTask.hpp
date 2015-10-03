@@ -40,7 +40,7 @@ namespace Task
 			_active = false;
 		}
 	protected:
-		char _priority;
+		priority_t _priority;
 		bool _active;
 	};
 

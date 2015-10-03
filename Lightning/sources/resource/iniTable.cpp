@@ -69,10 +69,6 @@ bool iniTable::is_ready()
 {
 	return _ready;
 }
-char* iniTable::type()
-{
-	return "INI_Table";
-}
 
 
 int iniTable::parseIni(std::string ini)
@@ -148,22 +144,37 @@ bool iniTable::save(std::string iniFile)
 // Get from iniTable operations
 int	iniTable::GetInt(std::string key)
 {
-	return iniInts[key];
+	try {
+		return iniInts.at(key);
+	}
+	catch (const std::out_of_range& oor)
+	{
+		return 0;
+	}
 }
 float iniTable::GetFloat(std::string key)
 {
 	if (ExistsFloat(key)) // Floating point numbers encompas integers. If the value we wan't can be a float, but is written as an integer, we still want to be able to retrieve it.
 		return iniFloats[key];
 	else
-		return (float)iniInts[key];
+		return (float)GetInt(key); // Try and get an integer for this key
 }
 std::string iniTable::GetString(std::string key)
 {
-	return iniStrings[key];
+	try {
+		return iniStrings.at(key);
+	}
+	catch (const std::out_of_range& oor)
+	{
+		return "Invalid .ini String";
+	}
 }
-iniTable iniTable::GetSubtable(std::string key)
+iniTable* iniTable::GetSubtable(std::string key)
 {
-	return *iniSubTables[key];
+	if (ExistsSubtable(key))
+		return iniSubTables[key];
+	else
+		return nullptr;
 }
 
 // Add to iniTable operations
