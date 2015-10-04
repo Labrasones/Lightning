@@ -54,7 +54,7 @@ artifacts/
 *_i.h
 *.ilk
 *.meta
-*.obj
+# *.obj - Project includes .obj MODEL files, can't ignore all files with .obj extension
 *.pch
 *.pdb
 *.pgc

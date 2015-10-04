@@ -10,3 +10,7 @@
 [submodule "Lightning/3rdparty/gli"]
 	path = Lightning/3rdparty/gli
 	url = git://github.com/g-truc/gli
+[submodule "Lightning/3rdparty/glad"]
+	path = Lightning/3rdparty/glad
+	url = https://github.com/Dav1dde/glad
+	branch = c

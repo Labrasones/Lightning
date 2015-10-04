@@ -113,7 +113,7 @@ int main(int argc, char *argv)
 	*/
 	
 	Shader ourShader("vertexShader.vert", "fragshader.frag");
-	Model ourModel("nanosuit.obj");
+	Model ourModel("resource/nanosuit.obj");
 
 	float screenWidth = (float)resTable->GetInt("x");
 	float screenHeight = (float)resTable->GetInt("y");

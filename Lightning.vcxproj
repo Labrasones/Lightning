@@ -59,25 +59,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)compile\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Lightning\compile\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Lightning.dir\$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Lightning</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)compile\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Lightning\compile\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Lightning.dir\$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Lightning</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(SolutionDir)compile\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(SolutionDir)Lightning\compile\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(SolutionDir)Lightning.dir\$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Lightning</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(SolutionDir)compile\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(SolutionDir)Lightning\compile\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(SolutionDir)Lightning.dir\$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Lightning</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
@@ -320,8 +320,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lightning\sources\glad.c" />
-    <ClCompile Include="Lightning\sources\glad_wgl.c" />
+    <ClCompile Include="Lightning\3rdparty\glad\src\glad.c" />
     <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\camera.hpp" />
     <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\file\AssimpIO.hpp" />
     <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\file\BasicFile.hpp" />
@@ -363,9 +362,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\resource\context\ContextModel.cpp" />
     <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\resource\iniTable.cpp" />
     <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\task\TaskList.cpp" />
-    <ClInclude Include="Lightning\headers\glad\glad.h" />
-    <ClInclude Include="Lightning\headers\glad\glad_wgl.h" />
-    <ClInclude Include="Lightning\headers\KHR\khrplatform.h" />
     <None Include="F:\Projects\Game Development\C++\Lightning\Readme.md" />
     <None Include="F:\Projects\Game Development\C++\Lightning\.gitattributes" />
     <None Include="F:\Projects\Game Development\C++\Lightning\.gitignore" />
