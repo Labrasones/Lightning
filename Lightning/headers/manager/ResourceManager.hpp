@@ -34,31 +34,33 @@ namespace Manager
 		template <class ResourceType>
 		void addTree(std::string fallbackPath)
 		{
+			ResourceType type; // instantiate an instance of the resource to get the typeid associated with the resource
 			Resource::ResourceTree<ResourceType>* tree = new Resource::ResourceTree<ResourceType>(this, fallbackPath);
-			if (_trees.count(typeid(ResourceType)) > 0){
-				delete _trees[typeid(ResourceType)]; // Destroy the tree at this location
+			if (_trees.count(type.getTypeID()) > 0){
+				delete _trees[type.getTypeID()]; // Destroy the tree at this location
 			}
-			_trees[typeid(ResourceType)] = tree;
+			_trees[type.getTypeID()] = tree;
 		}
 		template <class ResourceType>
 		void addTree(ResourceType fallbackResource, std::string fallbackPath)
 		{
+			ResourceType type; // instantiate an instance of the resource to get the typeid associated with the resource
 			fallbackResource.makeUnready();
 			Resource::ResourceTree<ResourceType> *tree = new Resource::ResourceTree<ResourceType>(this, fallbackResource, fallbackPath);
-			if (_trees.count(typeid(ResourceType)) > 0){
-				delete _trees[typeid(ResourceType)];
+			if (_trees.count(type.getTypeID()) > 0){
+				delete _trees[type.getTypeID()];
 			}
-			_trees[typeid(ResourceType)] = tree;
+			_trees[type.getTypeID()] = tree;
 		}
 
 		// Get a resource tree.
 		template <class ResourceType>
 		Resource::ResourceTree<ResourceType>* getTree(){
+			ResourceType type; // instantiate an instance of the resource to get the typeid associated with the resource
 			// Unique typeid of the ResourceType is used as the key. If the key exists, we are guarenteed that we can static_cast from BaseResourceTree to ResourceTree<ResourceType>
 			Resource::BaseResourceTree* baseTree;
-
 			try{
-				baseTree = _trees.at(typeid(ResourceType)); // Get the resource tree
+				baseTree = _trees.at(type.getTypeID()); // Get the resource tree
 			}
 			catch (std::out_of_range)
 			{

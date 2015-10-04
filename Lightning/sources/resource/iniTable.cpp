@@ -24,13 +24,12 @@ bool iniTable::load(Manager::ResourceManager* container, std::string path)
 {
 	_loading = true;
 	originFile = path;
-	File::SourcedStream ini;
-	bool exists = container->file()->openStream(path, &ini, std::ios::in | std::ios::ate);
-	if (exists)
+	std::fstream ini = container->file()->getFile(path, std::ios::in | std::ios::ate);
+	if (ini.is_open())
 	{
 		std::string cleanIni; // No comments or whitespace
 		cleanIni.reserve((unsigned int)ini.tellg()); // Needs to be at most large enough to contain entire ini file. Save time by reserving it now, rather than continually increasing.
-		ini.reset();
+		ini.seekg(0, std::ios_base::beg);
 
 		std::string line;
 		while (std::getline(ini, line)){
@@ -50,19 +49,19 @@ bool iniTable::load(Manager::ResourceManager* container, std::string path)
 		}
 
 		parseIni(cleanIni);
-		iniTable* table = new iniTable();
+		_loaded = true;
+		_ready = true;
+		_loading = false;
 	}
 	else{
 		// TODO: Use generalized error logger
 		std::cout << "Err: .ini not found: " << path << std::endl;
 		_loading = false;
 		_loaded = true;
-		return false;
+		ini.close();
 	}
-	_loaded = true;
-	_ready = true;
-	_loading = false;
-	return true;
+	ini.close();
+	return _ready;
 }
 
 bool iniTable::is_ready()

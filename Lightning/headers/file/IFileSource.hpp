@@ -7,7 +7,6 @@
 #pragma once
 #include <string>
 #include <fstream>
-#include "SourcedStream.hpp"
 
 namespace File
 {
@@ -19,7 +18,7 @@ namespace File
 			virtual ~IFileSource() = 0;
 
 			// Get a stream to a valid file, or nullptr.
-			virtual bool openStreamBuffer(std::string filepath, SourcedStream* stream, std::ios::openmode mode = std::ios::in | std::ios::out) = 0;
+			virtual std::fstream getFile(std::string filepath, std::ios::openmode mode = std::ios::in | std::ios::out) = 0;
 		};
 		inline IFileSource::~IFileSource(){
 

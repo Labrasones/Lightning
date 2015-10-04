@@ -6,7 +6,7 @@ AssimpIOStream::AssimpIOStream()
 {}
 AssimpIOStream::AssimpIOStream(std::string pFile, File::FileManager* files, std::ios::openmode mode) : filename(pFile)
 {
-	files->openStream(pFile, &file, mode);
+	file = files->getFile(pFile, mode);
 }
 AssimpIOStream::~AssimpIOStream()
 {}
@@ -37,14 +37,17 @@ aiReturn AssimpIOStream::Seek(size_t pOffset, aiOrigin pOrigin)
 
 	if (pOrigin == aiOrigin_SET) { // Start at the beginning
 		file.seekg(pOffset, std::ios_base::beg);
+		file.seekp(pOffset, std::ios_base::beg);
 	}
 	else if (pOrigin == aiOrigin_CUR) // Start at the current location
 	{
 		file.seekg(pOffset, std::ios_base::cur);
+		file.seekp(pOffset, std::ios_base::beg);
 	}
 	else if (pOrigin == aiOrigin_END) // Start at the end of the file
 	{
 		file.seekg(pOffset, std::ios_base::end);
+		file.seekp(pOffset, std::ios_base::beg);
 	}
 	else
 	{
@@ -56,7 +59,7 @@ aiReturn AssimpIOStream::Seek(size_t pOffset, aiOrigin pOrigin)
 
 size_t AssimpIOStream::Tell() const
 {
-	return file.tellg;
+	return file.tellg(); // Note: Input and output streams are synchronized, so they should both return the same position through tell
 }
 
 size_t AssimpIOStream::FileSize() const
@@ -110,9 +113,8 @@ AssimpIOSystem::~AssimpIOSystem()
 
 bool AssimpIOSystem::Exists(const char* pFile) const
 {
-	File::SourcedStream file;
-	files->openStream(std::string(pFile), &file);
-	return file.good();
+	std::fstream file = files->getFile(pFile);
+	return file.is_open();
 }
 
 char AssimpIOSystem::getOsSeparator() const
@@ -136,6 +138,9 @@ Assimp::IOStream* AssimpIOSystem::Open(const char* pFile, const char* pMode)
 	}
 	if (sMode.find('a') != std::string::npos) {
 		mode = mode | std::ios::ate;
+	}
+	if (sMode.find('b') != std::string::npos) {
+		mode = mode | std::ios::binary;
 	}
 	return new AssimpIOStream(pFile, files, mode);
 }

@@ -12,15 +12,18 @@ namespace Resource
 	class Model : public BaseResource
 	{
 	public:
-		Model();
-		~Model();
+		Model() {};
+		virtual ~Model() = 0;
 
 		/* Resource Creation */
-		bool load(Manager::ResourceManager* container, std::string path);
+		bool load(Manager::ResourceManager* container, std::string path) = 0;
 		char* type() {
 			return "model";
 		}
 	};
+
+	inline Model::~Model()
+	{};
 }
 
 #endif

@@ -22,16 +22,21 @@ void FileManager::addSource(Source::IFileSource* source)
 {
 	sources.push_back(source);
 }
-bool FileManager::openStream(std::string filepath, SourcedStream * stream, std::ios::openmode mode)
+std::fstream FileManager::getFile(std::string filepath, std::ios::openmode mode)
 {
-	unsigned int i = 0;
-	bool opened = false;
-	while (!opened && i < sources.size()) // While the stream has not been opened, and there are more sources to use
+	std::fstream file;
+	bool success = false;
+	for (unsigned int i = 0; i < sources.size(); i++) // While the stream has not been opened, and there are more sources to use
 	{
-		opened = sources[i]->openStreamBuffer(filepath, stream, mode); // Attempt to open the stream
-		i++;
+		file = sources[i]->getFile(filepath, mode); // Attempt to open the file from this source
+		if (file.is_open())
+		{
+			return file;
+		}
 	}
-	return opened; // return status of stream
+	// We never found the file in any of the sources. Try to open it from the file system
+	file.open(filepath, mode);
+	return file;
 }
 
 void FileManager::clearSources()

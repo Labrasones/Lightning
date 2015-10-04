@@ -42,7 +42,7 @@ bool Package::openCatalog(std::string catalogFile)
 	return true;
 }
 
-bool Package::openStreamBuffer(std::string filepath, SourcedStream* stream, std::ios::openmode mode){
+std::fstream Package::getFile(std::string filepath, std::ios::openmode mode){
 	// find the filepath in the catalog tree
 	// open the specified package and skip to the start of the file
 	// copy from the package from the start byte to the end byte into a stringstream
@@ -52,7 +52,7 @@ bool Package::openStreamBuffer(std::string filepath, SourcedStream* stream, std:
 	// return ifstream
 
 	// if the filepath wasn't found in the package, return nullptr
-	return false;
+	return std::fstream();
 }
 
 void Package::deleteTreeRootedAt(File::Source::Package::CatalogNode* root)

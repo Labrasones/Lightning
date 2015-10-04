@@ -5,10 +5,10 @@
 */
 #pragma once
 
-#include "file/SourcedStream.hpp"
 #include "file/IFileSource.hpp"
 
 #include <vector>
+#include <fstream>
 namespace File
 {
 	class FileManager
@@ -19,7 +19,7 @@ namespace File
 		// Add a source to open the file stream from
 		void addSource(Source::IFileSource* source);
 		// Open the supplied stream to the supplied filepath with the supplied (optional) open mode
-		bool openStream(std::string filepath, SourcedStream* stream, std::ios::openmode mode = std::ios::in | std::ios::out);
+		std::fstream getFile(std::string filepath, std::ios::openmode mode = std::ios::in | std::ios::out);
 		// Remove and deallocate all sources
 		void clearSources();
 	private:

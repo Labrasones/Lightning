@@ -22,6 +22,11 @@ namespace Resource
 			return "assimp_model";
 		}
 
+		std::type_index getTypeID()
+		{
+			return typeid(Resource::Model); // This is a type of model. Indicate they can be stored in the same tree
+		}
+
 	private:
 		const aiScene* scene;
 	};

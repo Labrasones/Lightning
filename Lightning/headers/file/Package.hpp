@@ -9,7 +9,6 @@
 #pragma once
 
 #include "IFileSource.hpp"
-#include "SourcedStream.hpp"
 #include <string>
 #include <map>
 
@@ -37,7 +36,7 @@ namespace File {
 
 		public:
 			// Inheritied
-			bool openStreamBuffer(std::string filepath, SourcedStream* stream, std::ios::openmode mode = std::ios::in | std::ios::out);
+			std::fstream getFile(std::string filepath, std::ios::openmode mode = std::ios::in | std::ios::out);
 		};
 	}
 }

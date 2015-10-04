@@ -20,6 +20,11 @@ namespace Resource
 		virtual bool load(Manager::ResourceManager* container, std::string path) = 0;
 		virtual char* type() = 0;
 
+		std::type_index getTypeID()
+		{
+			return typeid(this);
+		}
+
 		bool ready() {
 			return _ready;
 		}
@@ -45,7 +50,5 @@ namespace Resource
 	};
 
 	inline BaseResource::~BaseResource()
-	{
-
-	};
+	{};
 }

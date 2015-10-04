@@ -11,5 +11,5 @@ ContextModel::~ContextModel()
 
 bool ContextModel::load(Manager::ResourceManager* resourceContainer, std::string path)
 {
-
+	return true;
 }

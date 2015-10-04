@@ -4,11 +4,13 @@
 	Utility to create an ini table from a .ini file
 */
 #pragma once
-#include <string>
-#include <map>
 
 #include "manager/ResourceManager.hpp"
 #include "BaseResource.hpp"
+
+#include <fstream>
+#include <string>
+#include <map>
 
 namespace Resource
 {

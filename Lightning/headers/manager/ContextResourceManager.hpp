@@ -45,7 +45,7 @@ namespace Manager {
 				}
 			}
 		private:
-			Resource::ResourceNode<ResourceType>* _nodeToLoad;
+			Resource::ResourceNode<ContextResourceType>* _nodeToLoad;
 			Manager::ResourceManager* _resourceSource;
 			Manager::ContextResourceManager* _parentManager;
 			std::string _path;

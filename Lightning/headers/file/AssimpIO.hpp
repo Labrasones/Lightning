@@ -2,12 +2,13 @@
 #ifndef _ASSIMP_IO_STREAM
 #define _ASSIMP_IO_STREAM
 
-#include "file/SourcedStream.hpp"
 #include "manager/FileManager.hpp"
 
 #include <assimp/IOStream.hpp>
 #include <assimp/IOSystem.hpp>
 #include <assimp/ai_assert.h>
+
+#include <fstream>
 
 namespace File
 {
@@ -29,7 +30,7 @@ namespace File
 
 	private:
 		AssimpIOStream(void);
-		File::SourcedStream file;
+		mutable std::fstream file;
 		std::string filename;
 		mutable size_t cachedSize;
 	};

@@ -11,10 +11,10 @@
 #include "resource/BaseResource.hpp"
 #include "resource/ResourceHandle.hpp"
 #include "manager/FileManager.hpp"
-#include "file/BasicFile.hpp"
 #include "resource/iniTable.hpp"
 
 // System headers
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 
@@ -49,7 +49,6 @@ int main(int argc, char *argv)
 	}
 
 	File::FileManager file;
-	file.addSource(new File::Source::BasicFile()); // Add basic File IO as a source
 
 	Manager::ResourceManager resource(&file);
 
@@ -114,7 +113,7 @@ int main(int argc, char *argv)
 	*/
 	
 	Shader ourShader("vertexShader.vert", "fragshader.frag");
-	Model ourModel("resource/nanosuit.obj");
+	Model ourModel("nanosuit.obj");
 
 	float screenWidth = (float)resTable->GetInt("x");
 	float screenHeight = (float)resTable->GetInt("y");

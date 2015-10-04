@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\file\AssimpIO.cpp">
+      <Filter>src\file</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\file\BasicFile.cpp">
+      <Filter>src\file</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\file\limitedFileBuf.cpp">
+      <Filter>src\file</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\file\Package.cpp">
+      <Filter>src\file</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\file\SourcedStream.cpp">
+      <Filter>src\file</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\manager\FileManager.cpp">
+      <Filter>src\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\resource\AssimpModel.cpp">
+      <Filter>src\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\resource\context\ContextMesh.cpp">
+      <Filter>src\resource\context</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\resource\context\ContextModel.cpp">
+      <Filter>src\resource\context</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\resource\iniTable.cpp">
+      <Filter>src\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Projects\Game Development\C++\Lightning\Lightning\sources\task\TaskList.cpp">
+      <Filter>src\task</Filter>
+    </ClCompile>
+    <ClCompile Include="Lightning\sources\glad.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Lightning\sources\glad_wgl.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\camera.hpp">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\file\AssimpIO.hpp">
+      <Filter>header\file</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\file\BasicFile.hpp">
+      <Filter>header\file</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\file\IFileSource.hpp">
+      <Filter>header\file</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\file\limitedFileBuf.hpp">
+      <Filter>header\file</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\file\Package.hpp">
+      <Filter>header\file</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\file\SourcedStream.hpp">
+      <Filter>header\file</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\lightning.hpp">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\manager\ContextResourceManager.hpp">
+      <Filter>header\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\manager\FileManager.hpp">
+      <Filter>header\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\manager\ResourceManager.hpp">
+      <Filter>header\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\Mesh.hpp">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\Model.hpp">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\AssimpModel.hpp">
+      <Filter>header\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\BaseResource.hpp">
+      <Filter>header\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\context\BaseContextResource.hpp">
+      <Filter>header\resource\context</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\context\ContextMesh.hpp">
+      <Filter>header\resource\context</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\context\ContextModel.hpp">
+      <Filter>header\resource\context</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\context\Material.hpp">
+      <Filter>header\resource\context</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\context\Texture.hpp">
+      <Filter>header\resource\context</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\Image.hpp">
+      <Filter>header\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\iniTable.hpp">
+      <Filter>header\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\Model.hpp">
+      <Filter>header\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\ResourceHandle.hpp">
+      <Filter>header\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\ResourceNode.hpp">
+      <Filter>header\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\resource\ResourceTree.hpp">
+      <Filter>header\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\Shader.hpp">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\task\BasicTask.hpp">
+      <Filter>header\task</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Projects\Game Development\C++\Lightning\Lightning\headers\task\TaskList.hpp">
+      <Filter>header\task</Filter>
+    </ClInclude>
+    <ClInclude Include="Lightning\headers\glad\glad.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="Lightning\headers\KHR\khrplatform.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="Lightning\headers\glad\glad_wgl.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\Projects\Game Development\C++\Lightning\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="F:\Projects\Game Development\C++\Lightning\Readme.md" />
+    <None Include="F:\Projects\Game Development\C++\Lightning\.gitattributes" />
+    <None Include="F:\Projects\Game Development\C++\Lightning\.gitignore" />
+    <None Include="F:\Projects\Game Development\C++\Lightning\.gitmodules" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src\file">
+      <UniqueIdentifier>{63DE79BC-EB8A-4585-A759-BB3DD8FAC7AF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\manager">
+      <UniqueIdentifier>{038E7C5B-FFA4-404B-8F68-6D1DABD315BA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\resource">
+      <UniqueIdentifier>{C372BA49-5015-4B60-9328-065793364525}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\task">
+      <UniqueIdentifier>{5D63E4AB-5253-4330-9EDF-C38DE0CA2C6F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\resource\context">
+      <UniqueIdentifier>{85CF4B57-ABFD-4DEC-8BC2-A72B7C818B50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header\resource\context">
+      <UniqueIdentifier>{FA188D33-0A42-4DAB-B9B5-EA4F0085F689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{E4A81E55-E5DA-4EE0-A16B-C9A145D1B30C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header">
+      <UniqueIdentifier>{15E7A2CB-67D4-4B02-A078-4FBF82D215CF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header\file">
+      <UniqueIdentifier>{058E17BF-6D92-4C5B-BEB8-1F2C20CCD4F6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header\manager">
+      <UniqueIdentifier>{B0288464-B3D3-49F0-8F49-9920AC01A9AD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header\resource">
+      <UniqueIdentifier>{6409E40F-A1D6-4F4F-BE00-709D5258037A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header\task">
+      <UniqueIdentifier>{65A249D0-BD50-4D35-958F-3572CF5D7623}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

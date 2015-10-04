@@ -1,11 +1,14 @@
 #pragma once
+#include "Shader.hpp"
+
+#include <assimp/Importer.hpp>
+
 // Std. Includes
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <vector>
-using namespace std;
 // GL Includes
 #include <glad/glad.h> // Contains all the necessery OpenGL includes
 #include <glm/glm.hpp>
@@ -27,21 +30,21 @@ struct Vertex {
 
 struct Texture {
 	GLuint id;
-	string type;
+	std::string type;
 	aiString path;
 };
 
 class Mesh {
 public:
 	/*  Mesh Data  */
-	vector<Vertex> vertices;
-	vector<GLuint> indices;
-	vector<Texture> textures;
+	std::vector<Vertex> vertices;
+	std::vector<GLuint> indices;
+	std::vector<Texture> textures;
 	GLuint VAO;
 
 	/*  Functions  */
 	// Constructor
-	Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> textures)
+	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures)
 	{
 		this->vertices = vertices;
 		this->indices = indices;
@@ -63,9 +66,9 @@ public:
 		{
 			glActiveTexture(GL_TEXTURE0 + i); // Active proper texture unit before binding
 											  // Retrieve texture number (the N in diffuse_textureN)
-			stringstream ss;
-			string number;
-			string name = this->textures[i].type;
+			std::stringstream ss;
+			std::string number;
+			std::string name = this->textures[i].type;
 			if (name == "texture_diffuse")
 				ss << diffuseNr++; // Transfer GLuint to stream
 			else if (name == "texture_specular")
